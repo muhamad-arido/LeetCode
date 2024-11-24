@@ -5,5 +5,5 @@ function searchInsert(nums: number[], target: number): number {
 
   nums.push(target);
 
-  return nums.sort().findIndex((v) => v === target);
+  return nums.sort((a, b) => a - b).findIndex((v) => v === target);
 };
