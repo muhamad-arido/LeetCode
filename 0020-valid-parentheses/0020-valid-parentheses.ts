@@ -20,5 +20,5 @@ function isValid(s: string): boolean {
     return false;
   });
 
-  return valid.every((value) => value);
+  return valid.every((value) => value) && res.length === 0;
 }
