@@ -13,21 +13,17 @@
  */
 
 function isSymmetric(root: TreeNode | null): boolean {
-  const inorderTraversal: Array<number> = [];
+  if (!root) return true;
 
-  (function createInorder(node: TreeNode | null) {
-    if (!node) return;
+  function recursive(nodeA: TreeNode | null, nodeB: TreeNode | null): boolean {
+    if (nodeA === null && nodeB === null) return true;
+    if (nodeA === null || nodeB === null) return false;
+    if (nodeA.val !== nodeB.val) return false;
 
-    createInorder(node.left);
-    inorderTraversal.push(node.val);
-    createInorder(node.right);
-  })(root);
+    return (
+      recursive(nodeA.left, nodeB.right) && recursive(nodeA.right, nodeB.left)
+    );
+  }
 
-  if (inorderTraversal.length % 2 === 0) return false;
-
-  const mid: number = Math.floor(inorderTraversal.length / 2);
-  const left: Array<number> = inorderTraversal.slice(0, mid);
-  const right: Array<number> = inorderTraversal.slice(mid + 1).reverse();
-
-  return left.every((v, i) => v === right[i]);
+  return recursive(root.left, root.right);
 };
