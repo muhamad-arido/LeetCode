@@ -1,13 +1,13 @@
 function stringMatching(words: string[]): string[] {
-  const res: string[] = [];
+  const res: Set<string> = new Set();
 
   for (let index = 0; index < words.length; index++) {
     for (let j = 0; j < words.length; j++) {
-      if (j !== index && !res.includes(words[index])) {
-        if (words[j].includes(words[index])) res.push(words[index]);
+      if (j !== index && !res.has(words[index])) {
+        if (words[j].includes(words[index])) res.add(words[index]);
       }
     }
   }
 
-  return res;
+  return [...res];
 }
