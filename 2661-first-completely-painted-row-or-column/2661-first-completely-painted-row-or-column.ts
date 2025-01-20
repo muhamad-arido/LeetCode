@@ -1,30 +1,28 @@
 function firstCompleteIndex(arr: number[], mat: number[][]): number {
-  const row: Map<number, number[]> = new Map();
-  const col: Map<number, number[]> = new Map();
-  const getIndex = ((): (() => number) => {
-    let index = 1;
-    return () => index++;
-  })();
+  const rows = mat.length;
+  const cols = mat[0].length;
 
-  for (let i = 0; i < mat.length; i++) {
-    const colStack = [];
-    const rowStack = [];
-    for (let j = 0; j < mat[i].length; j++) {
-      rowStack.push(mat[i][j]);
-      colStack.push(mat[j][i]);
-
-      row.set(i + 1, rowStack);
-      const index = getIndex();
-
-      if (
-        row.get(i + 1)?.length === mat[j].length ||
-        col.get(i + 1)?.length === mat[j].length
-      ) {
-        return index;
-      }
+  const positionMap: Map<number, [number, number]> = new Map();
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      positionMap.set(mat[r][c], [r, c]);
     }
+  }
 
-    col.set(i + 1, colStack);
+  const rowPainted = new Array(rows).fill(0);
+  const colPainted = new Array(cols).fill(0);
+
+  for (let i = 0; i < arr.length; i++) {
+    const num = arr[i];
+
+    const [row, col] = positionMap.get(num)!;
+
+    rowPainted[row]++;
+    colPainted[col]++;
+
+    if (rowPainted[row] === cols || colPainted[col] === rows) {
+      return i;
+    }
   }
 
   return -1;
