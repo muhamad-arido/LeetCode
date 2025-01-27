@@ -1,16 +1,29 @@
 class ArrayWrapper {
-  nums: number[];
-
+  private nums: number[];
   constructor(nums: number[]) {
-    this.nums = nums || [];
+    this.nums = nums;
   }
 
   valueOf(): number {
-    return this.nums.length === 0 ? 0 : this.nums.reduce((a, b) => a + b);
+    return this.nums.reduce((acc, curr) => acc + curr, 0);
   }
 
   toString(): string {
-    return String(`[${this.nums}]`);
+    return `[${this.nums}]`;
+  }
+}
+
+type Operation = "Add" | "String";
+function test(nums: number[][], operation: Operation): number | string {
+  const wrappers = nums.map((e) => new ArrayWrapper(e));
+
+  switch (operation) {
+    case "String":
+      return wrappers[0]?.toString() ?? "[]";
+    case "Add":
+      return wrappers.reduce((sum, wrapper) => sum + wrapper.valueOf(), 0);
+    default:
+      throw new Error("Operation not available");
   }
 }
 
