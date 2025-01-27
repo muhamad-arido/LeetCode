@@ -7,13 +7,11 @@ function expect(val: any): ToBeOrNotToBe {
   return {
     toBe: (v) => {
       if (v !== val) throw new Error("Not Equal");
-
-      return v === val;
+      return true;
     },
     notToBe: (v) => {
       if (v === val) throw new Error("Equal");
-
-      return v !== val;
+      return true;
     },
   };
 }
